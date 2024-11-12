@@ -1,0 +1,10 @@
+services:
+  app: 
+    container_name: amplipiper_container
+    restart: always
+    image: astrabert/amplipiper:test
+    volumes:
+      - $USERDATA_PATH:/app/userdata/
+    stdin_open: true
+    tty: true
+    entrypoint: "/bin/bash"
