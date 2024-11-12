@@ -159,7 +159,7 @@ mamba create \
     -y \
     -c bioconda \
     -c conda-forge \
-    iqtree=2.2.5 >>${BASEDIR}/envs/logs/setup.log 2>&1
+    iqtree=2.3.6 >>${BASEDIR}/envs/logs/setup.log 2>&1
 
 if [ ! -d ${BASEDIR}/envs/iqtree ]; then
     echo "IQtree installation failed" >>${BASEDIR}/envs/logs/setup.err
@@ -172,7 +172,7 @@ mamba create \
     -y \
     -c bioconda \
     -c conda-forge \
-    mafft=7.520 >>${BASEDIR}/envs/logs/setup.log 2>&1
+    mafft=7.525 >>${BASEDIR}/envs/logs/setup.log 2>&1
 
 if [ ! -d ${BASEDIR}/envs/mafft ]; then
     echo "MAFFT installation failed" >>${BASEDIR}/envs/logs/setup.err
