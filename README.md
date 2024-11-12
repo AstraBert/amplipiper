@@ -1,5 +1,7 @@
 # AmpliPiper Docker image
 
+![Docker](https://github.com/AstraBert/amplipiper/actions/workflows/docker-publish.yml/badge.svg)
+
 ## What is Docker?
 
 [Docker](https://www.docker.com/) is a platform that help developers to get **faster**, more **generalized** and **packaged** deployments and distributions for their applications.
@@ -20,7 +22,7 @@ We will talk about downloading and getting to run Docker in the next paragraph, 
 
 You need Windows 10 or 11 to make Docker work and, if you're using a _Windows Subsystem Linux_ (WSL), make sure to have upgraded it to WSL2. 
 
-For the installation, you should get the binary that best suits your Windows machine from the link at the beginning of this paragraph, and from there simply click on `Docker Desktop Installer.exe` and follow up as you are prompted by the installation interface.🤗
+For the installation, you should get the binary that best suits your Windows machine from the link at the beginning of this paragraph, and from there simply click on `Docker Desktop Installer.exe` and follow up as you are prompted by the installation interface.
 
 ### Docker on MacOS
 
@@ -96,7 +98,7 @@ Other installations processes [here](https://docs.docker.com/engine/install/)
 For now AmpliPiper Docker image is available only for testing, and canbe obtained simply running from **PowerShell**/**CMD** (Windows), **Terminal** (macOS) and **integrated terminal** (Linux distros):
 
 ```bash
-docker pull astrabert/amplipiper:test
+docker pull ghcr.io/astrabert/amplipiper:main
 ```
 
 If it does not work on Linux for permission issues, you should run this as `sudo`.
@@ -106,7 +108,7 @@ You can now run the image interactively:
 ```bash
 docker run -i \
     -t \
-    astrabert/amplipiper:test \
+    ghcr.io/astrabert/amplipiper:main \
     /bin/bash
 ```
 
@@ -114,7 +116,7 @@ But the so-created container will not contain any data fromn your local file-sys
 
 In order to inject your local file-system into a Docker container you need to mount a volume (`-v` flag), using a mapping syntax that is very simple: `/your/local/path:/docker/container/path` (this is **only an example**! Replace `/your/local/path` and `/docker/container/path` with actual and valid paths).
 
-To test AmpliPiper, you can clone this repository and then mount it inside the container as volume:
+To userdata AmpliPiper, you can clone this repository and then mount it inside the container as volume:
 
 ```bash
 # Clone the repository
@@ -123,7 +125,7 @@ git clone https://github.com/nhmvienna/AmpliPiper.git
 docker run -i \
     -t \
     -v ./AmpliPiper/:/app/userdata/ \
-    astrabert/amplipiper:test \
+    ghcr.io/astrabert/amplipiper:main \
     /bin/bash
 ```
 
@@ -133,7 +135,7 @@ Now all the content in your local `AmpliPiper` folder is stored under `/app/user
 
 Docker offers an integrated workflow that runs your images taking care of all the runtime arguments with a [`compose.yaml`](./compose.yaml) file. To run AmpliPiper container interactively, you just need to:
 
-- Modify the  `USERDATA_PATH` variable in the [`.env`](./.env.example) (`.env.example` is only an example, you should use your actual `.env` file!) to match with the portion of your file-system you want to inject into Docker
+- Modify the  `USERDATA_PATH` variable in the [`.env`](./.env) to match with the portion of your file-system you want to injcet into Docker
 - Use the two following commands:
 
 ```bash
@@ -143,12 +145,14 @@ docker exec -it $(docker ps -qf "name=amplipiper_container") /bin/bash
 
 You'll find the volume you mounted in the container under `/app/userdata/`.
 
+> ⚠️: _If you are on Windows, you should **use PowerShell** to run the commands and you should specify your paths in the `.env` file as `c:/path/to/your/data`_
+
 ## Test AmpliPiper
 
-While you are inside the container, now, you can try the test already available in this repo by running:
+While you are inside the container, now, you can try the test already available in [AmpliPiper repo](https://github.com/nhmvienna/AmpliPiper) by running:
 
 ```bash
-# define the path to your test folder
+# define the path to your userdata folder
 WD='/app/userdata'
 
 # generate samples.csv file
@@ -171,9 +175,9 @@ done
 
 # run AmpliPiper
 bash /app/shell/AmpliPiper.sh \
-    -s /app/test/testdata/data/samples.csv \
-    -p /app/test/testdata/data/primers.csv \
-    -o /app/test/testdata/results/demo \
+    -s /app/userdata/testdata/data/samples.csv \
+    -p /app/userdata/testdata/data/primers.csv \
+    -o /app/userdata/testdata/results/demo \
     --quality 10 \
     --nreads 1000 \
     --blast your@email.com \

@@ -1,5 +1,5 @@
-# define the path to your test folder
-WD='/app/test'
+# define the path to your userdata folder
+WD='/app/userdata'
 
 # generate samples.csv file
 
@@ -21,9 +21,9 @@ done
 
 # run AmpliPiper
 bash /app/shell/AmpliPiper.sh \
-    -s /app/test/testdata/data/samples.csv \
-    -p /app/test/testdata/data/primers.csv \
-    -o /app/test/testdata/results/demo \
+    -s /app/userdata/testdata/data/samples.csv \
+    -p /app/userdata/testdata/data/primers.csv \
+    -o /app/userdata/testdata/results/demo \
     --quality 10 \
     --nreads 1000 \
     --blast your@email.com \
