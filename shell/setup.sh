@@ -44,7 +44,7 @@ command -v conda >/dev/null 2>&1 || {
     exit 1
 }
 
-command -v micromamba >/dev/null 2>&1 || {
+command -v mamba >/dev/null 2>&1 || {
     echo >&2 "The installation pipeline requires Mamba but it is not installed. Please check here: https://github.com/conda-forge/miniforge#mambaforge for more details. Aborting."
     echo "Mamba not installed" >>${BASEDIR}/logs/dep.err
     exit 2
@@ -78,7 +78,7 @@ mkdir -p ${BASEDIR}/envs/logs
 eval "$(conda shell.bash hook)"
 
 ## install python_dependencies
-micromamba create \
+mamba create \
     -p ${BASEDIR}/envs/python_dependencies \
     -y \
     -c conda-forge \
@@ -91,7 +91,7 @@ micromamba create \
 conda activate \
     ${BASEDIR}/envs/python_dependencies
 
-micromamba install \
+mamba install \
     -y \
     -c conda-forge \
     -c bioconda \
@@ -129,7 +129,7 @@ fi
 echo "asap installation done"
 
 ## install Astral
-micromamba create \
+mamba create \
     -p ${BASEDIR}/envs/astral \
     -y \
     -c bioconda \
@@ -142,7 +142,7 @@ fi
 echo "Astral installation done"
 
 ## install GNU parallel
-micromamba create \
+mamba create \
     -p ${BASEDIR}/envs/parallel \
     -y \
     -c conda-forge \
@@ -154,7 +154,7 @@ fi
 echo "GNU parallel installation done"
 
 ## install IQtree
-micromamba create \
+mamba create \
     -p ${BASEDIR}/envs/iqtree \
     -y \
     -c bioconda \
@@ -167,7 +167,7 @@ fi
 echo "IQtree installation done"
 
 ## install MAFFT
-micromamba create \
+mamba create \
     -p ${BASEDIR}/envs/mafft \
     -y \
     -c bioconda \
@@ -179,31 +179,8 @@ if [ ! -d ${BASEDIR}/envs/mafft ]; then
 fi
 echo "MAFFT installation done"
 
-# ## install minimap
-# micromamba create \
-#     -p ${BASEDIR}/envs/minimap \
-#     -y \
-#     -c conda-forge \
-#     -c bioconda \
-#     minimap2=2.26 >>${BASEDIR}/envs/logs/setup.log 2>&1
-
-# conda activate \
-#     ${BASEDIR}/envs/minimap
-
-# micromamba install \
-#     -y \
-#     -c conda-forge \
-#     -c bioconda \
-#     samtools=1.17 >>${BASEDIR}/envs/logs/setup.log 2>&1
-
-# conda deactivate
-# if [ ! -d ${BASEDIR}/envs/minimap ]; then
-#     echo "Minimap installation failed" >>${BASEDIR}/envs/logs/setup.err
-# fi
-# echo "Minimap installation done"
-
 ## install NanoFilt
-micromamba create \
+mamba create \
     -p ${BASEDIR}/envs/nanofilt \
     -y \
     -c bioconda \
@@ -217,7 +194,7 @@ fi
 conda activate \
     ${BASEDIR}/envs/nanofilt
 
-micromamba install \
+mamba install \
     -y \
     -c conda-forge \
     -c bioconda \
@@ -227,7 +204,7 @@ conda deactivate
 echo "Nanofilt installation done"
 
 ## install Pigz
-micromamba create \
+mamba create \
     -p ${BASEDIR}/envs/pigz \
     -y \
     -c bioconda \
@@ -239,23 +216,8 @@ if [ ! -d ${BASEDIR}/envs/pigz ]; then
 fi
 echo "PIGZ installation done"
 
-### install python_dependencies
-#micromamba create \
-#    -p ${BASEDIR}/envs/python_dependencies \
-#    -y \
-#    -c conda-forge \
-#    -c bioconda \
-#    python=3.10 >>${BASEDIR}/envs/logs/setup.log 2>&1
-#
-## activate python_dependencies environments
-#
-#conda activate \
-#    ${BASEDIR}/envs/python_dependencies
-#
-# install dependencies
-
 ## install R
-micromamba create \
+mamba create \
     -p ${BASEDIR}/envs/R \
     -y \
     -c bioconda \
@@ -270,7 +232,7 @@ conda activate \
     ${BASEDIR}/envs/R
 
 # install dependencies
-micromamba install \
+mamba install \
     -y \
     -c conda-forge \
     -c bioconda \
@@ -290,61 +252,3 @@ micromamba install \
 conda deactivate
 
 echo "R installation done"
-
-# ## install samtools
-# micromamba create \
-#     -p ${BASEDIR}/envs/samtools \
-#     -y \
-#     -c conda-forge \
-#     -c bioconda \
-#     samtools=1.17 >>${BASEDIR}/envs/logs/setup.log 2>&1
-
-# if [ ! -d ${BASEDIR}/envs/samtools ]; then
-#     echo "Samtools installation failed" >>${BASEDIR}/envs/logs/setup.err
-# fi
-# echo "Samtools installation done"
-
-# echo ""
-# echo "*********************"
-# echo "Done"
-
-# ## install bcftools
-# micromamba create \
-#     -p ${BASEDIR}/envs/bcftools \
-#     -y \
-#     -c conda-forge \
-#     -c bioconda \
-#     bcftools >>${BASEDIR}/envs/logs/setup.log 2>&1
-
-# if [ ! -d ${BASEDIR}/envs/bcftools ]; then
-#     echo "BCFtools installation failed" >>${BASEDIR}/envs/logs/setup.err
-# fi
-# echo "BCFtools installation done"
-
-# ${BASEDIR}/envs/python_dependencies/bin/pip3 install \
-#     edlib biopython matplotlib setuptools wheel requests pandas cffi jinja2 >> ${BASEDIR}/envs/logs/setup.log 2>&1
-
-## install BOLD_identification
-# micromamba create \
-#     -p ${BASEDIR}/envs/bold_identification \
-#     -y \
-#     -c bioconda \
-#     bold-identification=0.0.27-0 >>${BASEDIR}/envs/logs/setup.log 2>&1
-
-# if [ ! -d ${BASEDIR}/envs/bold_identification ]; then
-#     echo "BOLD_identification installation failed" >>${BASEDIR}/envs/logs/setup.err
-# fi
-# echo "BOLD_identification installation done"
-
-# ## install NanoCaller
-# micromamba create \
-#     -p ${BASEDIR}/envs/nanocaller \
-#     -y \
-#     -c bioconda \
-#     -c conda-forge \
-#     nanocaller >>${BASEDIR}/envs/logs/setup.log 2>&1
-
-# if [ ! -d ${BASEDIR}/envs/nanocaller ]; then
-#     echo "NanoCaller installation failed" >>${BASEDIR}/envs/logs/setup.err
-# fi
-# echo "NanoCaller installation done"
